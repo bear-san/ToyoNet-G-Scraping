@@ -39,10 +39,13 @@ result_table.each do |elm|
   next if result["name"].include?("スポーツ健康科学")
 
   # 授業コードを取得できれば取得する
-  syllabus_btn_element = elm.find_element(:xpath, './/*[@class="btn_syllabus_jp"]')
-  if syllabus_btn_element.present? then
-
+=begin
+  begin
+    syllabus_btn_element = elm.find_element(:xpath, './/*[@class="btn_syllabus_jp"]')
+  rescue => exception
+    
   end
+=end
   results.append(result)
 end
 
@@ -150,10 +153,10 @@ file.write(results.to_json)
 file.close
 
 #ToyoNetGの教員別担当授業照会から、確認
-
-driver.navigate.to('https://www.toyo.ac.jp/toyonet/toyonet-g')
+driver.navigate.to('https://www.toyo.ac.jp/toyonet/toyonet-g-login')
 driver.execute_script('document.getElementsByName("j_username")[0].value = "";') # ToyoNet-GのユーザーID
 driver.execute_script('document.getElementsByName("j_password")[0].value = "";') # ToyoNet-Gのパスワード
+
 driver.execute_script('document.form1.submit();')
 
 driver.navigate.to('https://g-sys.toyo.ac.jp/univision/action/in/f02/Usin025611?typeCssToApply=mobile')
