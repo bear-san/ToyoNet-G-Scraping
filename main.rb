@@ -60,6 +60,8 @@ results = []
 course_seed_file = File.open("course_label.json","r")
 course_seed = JSON.parse(course_seed_file.read)
 
+teachers = []
+
 json_data.each do |data|
   result = {}
 
@@ -88,12 +90,14 @@ json_data.each do |data|
   result["title"]["en"] = subject_names[1]
 
   #教員名
-  teachers = data["instructor"].split("\n")
+  curriculum_teachers = data["instructor"].split("\n")
   result["teachers"] = []
 
-  teachers.each do|teacher|
+  curriculum_teachers.each do|teacher|
     result["teachers"].append(teacher.split(" / ")[0])
   end
+
+  teachers += result["teachers"]
 
   #曜日
   week = data["time"].split("\n")[0].split(",")[0]
@@ -161,7 +165,8 @@ driver.execute_script('document.form1.submit();')
 
 driver.navigate.to('https://g-sys.toyo.ac.jp/univision/action/in/f02/Usin025611?typeCssToApply=mobile')
 
-teachers = JSON.parse(File.open('teachers.json','r').read)
+# teachers = JSON.parse(File.open('teachers.json','r').read)
+teachers.uniq!
 teachers.each do |teacher|
   driver.execute_script("document.getElementsByName('name')[0].value = '#{teacher}'")
   driver.find_element(:name, 'Usin025610').submit()
