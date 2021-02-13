@@ -7,6 +7,10 @@ require 'securerandom'
 
 @timeout = 4
 
+USER_ID = "" # ToyoNet-GのユーザーID
+PASSWORD = "" # ToyoNet-Gのパスワード
+
+
 Selenium::WebDriver.logger.output = File.join('./', 'selenium.log')
 Selenium::WebDriver.logger.level = :warn
 
@@ -158,8 +162,8 @@ file.close
 
 #ToyoNetGの教員別担当授業照会から、確認
 driver.navigate.to('https://www.toyo.ac.jp/toyonet/toyonet-g-login')
-driver.execute_script('document.getElementsByName("j_username")[0].value = "";') # ToyoNet-GのユーザーID
-driver.execute_script('document.getElementsByName("j_password")[0].value = "";') # ToyoNet-Gのパスワード
+driver.execute_script("document.getElementsByName(\"j_username\")[0].value = \"#{USER_ID}\";")
+driver.execute_script("document.getElementsByName(\"j_password\")[0].value = \"#{PASSWORD}\";")
 
 driver.execute_script('document.form1.submit();')
 
